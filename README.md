@@ -36,7 +36,15 @@
 
 接口依据：https://developers.google.com/maps/documentation/places/web-service/text-search
 
-## 开发
+## Cloudflare 部署
+
+Git 仓库根目录即本目录。构建命令保持 `npm run build`，部署命令保持 `npx wrangler deploy`。已提供 `wrangler.jsonc`，明确发布 `dist` 并处理单页应用路由，无需自动生成配置或添加 Vite 插件。
+
+Cloudflare 版本部署交互界面和演示功能。`server.js` 是本地 Node 服务，不会由 Workers 自动运行；线上 Google 搜索、官网采集等接口返回未配置状态，其他 API 返回 JSON 404，避免返回网页导致解析错误。接通线上采集需要单独迁移后端并配置服务端密钥，仅设置环境变量不会启用当前 Worker 的采集功能。
+
+部署前可运行 `npx wrangler deploy --dry-run` 检查打包配置；这不会发布线上版本。
+
+## 本地开发
 
 `npm install`；`npm run build`；`npm test`；`npm start`。
 
