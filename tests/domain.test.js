@@ -1,0 +1,6 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {pointInPolygon,nextStage,counts,scoreFor,exportPlan} from '../src/domain.js';import {seed} from '../src/data.js';
+test('region includes inside points and rejects outside including concave cutout',()=>{const poly=[[0,0],[4,0],[4,4],[2,2],[0,4]];assert.equal(pointInPolygon([1,1],poly),true);assert.equal(pointInPolygon([5,1],poly),false);assert.equal(pointInPolygon([2,3],poly),false);});
+test('stage progression stops at finalist; funnel counts exclude rejected customers',()=>{const cs=seed();assert.equal(nextStage({stage:'shortlist'}),'finalist');assert.equal(nextStage({stage:'finalist'}),'finalist');assert.equal(counts(cs).finalist,1);cs[0].stage='excluded';assert.equal(counts(cs).finalist,0);assert.equal(counts(cs).initial,7);});
+test('real customers are never assigned fabricated demo scores',()=>{assert.equal(scoreFor({demo:false,scores:[35,28,23]}),null);assert.equal(scoreFor(seed()[0]),86);});
+test('material plan export preserves provenance and demo disclosure',()=>{const c=seed()[0];const out=exportPlan(c);assert.equal(out.origin,'demonstration');assert.equal(out.sources.length,2);assert.equal(out.network.find(n=>n.platform==='LinkedIn').confirmed,false);assert.equal(out.materialPlan,c.plan);});
