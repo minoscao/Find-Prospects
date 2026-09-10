@@ -1,6 +1,8 @@
+import {skillRequest} from '../skill-api.js';
 export default {
   async fetch(request, env) {
     const pathname = new URL(request.url).pathname;
+    if(pathname === '/api/skill')return skillRequest(request,env.SKILL_ADMIN_PASSWORD,env.SKILL_STORE);
     if (pathname === '/api/status') {
       return Response.json({google:false, website:false, social:false, ai:false, sending:false});
     }

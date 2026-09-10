@@ -1,3 +1,5 @@
+import {skillRequest} from './skill-api.js';
+import {mkdirSync,writeFileSync} from 'node:fs';
 import express from 'express';
 import {createServer as createViteServer} from 'vite';
 import {fileURLToPath} from 'node:url';
@@ -10,6 +12,7 @@ const root=path.dirname(fileURLToPath(import.meta.url));
 if(existsSync(path.join(root,'.env')))for(const line of readFileSync(path.join(root,'.env'),'utf8').split(/\r?\n/)){const m=line.match(/^([A-Z_]+)=(.*)$/);if(m&&!process.env[m[1]])process.env[m[1]]=m[2].replace(/^["']|["']$/g,'');}
 const app=express();app.use(express.json({limit:'100kb'}));
 app.use('/api',(req,res,next)=>{const origin=req.get('origin');if(origin&&!/^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin))return res.status(403).json({code:'ORIGIN_REJECTED'});res.set('Cache-Control','no-store');next();});
+app.post('/api/skill',async(req,res)=>{try{const store={get:async()=>{const f=path.join(root,'.private','rules.txt');return existsSync(f)?readFileSync(f,'utf8'):'';},put:async(_,value)=>{mkdirSync(path.join(root,'.private'),{recursive:true});writeFileSync(path.join(root,'.private','rules.txt'),value);}};const r=await skillRequest(new Request('http://'+req.get('host')+req.originalUrl,{method:'POST',headers:{'Content-Type':'application/json',...(req.get('origin')?{origin:req.get('origin')}:{})},body:JSON.stringify(req.body)}),process.env.SKILL_ADMIN_PASSWORD,store);res.status(r.status).json(await r.json());}catch{res.status(500).json({code:'STORAGE_ERROR'});}});
 app.get('/api/status',(_,res)=>res.json({google:!!process.env.GOOGLE_MAPS_API_KEY,website:true,social:false,ai:false,sending:false}));
 app.post('/api/search',async(req,res)=>{
   if(!process.env.GOOGLE_MAPS_API_KEY)return res.status(503).json({code:'GOOGLE_NOT_CONFIGURED'});
