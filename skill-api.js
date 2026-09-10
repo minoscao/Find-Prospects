@@ -1,4 +1,4 @@
-export async function skillRequest(request, password, store){
+export async function skillRequest(request, password, store, modelConnected=false){
  const reply=(data,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
  if(request.method!=='POST')return reply({code:'METHOD_NOT_ALLOWED'},405);
  if(!password||!store)return reply({code:'SKILL_NOT_CONFIGURED'},503);
@@ -13,5 +13,5 @@ export async function skillRequest(request, password, store){
   if(typeof body.rules!=='string'||body.rules.length>30000)return reply({code:'INVALID_RULES'},400);
   await store.put('rules',body.rules);
  }else if(body.action!=='read')return reply({code:'INVALID_ACTION'},400);
- return reply({rules:await store.get('rules')||'',modelConnected:false});
+ return reply({rules:await store.get('rules')||'',modelConnected});
 }

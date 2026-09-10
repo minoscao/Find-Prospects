@@ -24,5 +24,11 @@
         "period": 60
       }
     }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "SKILL_STORE",
+      "id": "348646ee8b5d4fe5908933a928cafcbd"
+    }
   ]
 }
