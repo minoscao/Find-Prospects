@@ -12,4 +12,4 @@ export function nextStage(customer){
 }
 export function scoreFor(c){if(!c.demo)return null;return c.scores.reduce((a,b)=>a+b,0);}
 export function counts(customers){return Object.fromEntries(stageOrder.map((s,i)=>[s,customers.filter(c=>c.stage!=='excluded'&&stageOrder.indexOf(c.stage)>=i).length]));}
-export function exportPlan(c){return {schemaVersion:1,customer:{id:c.id,name:c.name,website:c.website},origin:c.demo?'demonstration':'api',sources:c.sources,network:c.network,materialPlan:c.plan,generatedAt:new Date().toISOString()};}
+export function exportPlan(c){return {schemaVersion:1,customer:{id:c.id,name:c.name,website:c.website},origin:c.demo?'demonstration':c.origin||'api',sources:c.sources,network:c.network,materialPlan:c.plan,generatedAt:new Date().toISOString()};}
