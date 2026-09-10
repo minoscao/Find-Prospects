@@ -1,3 +1,4 @@
+import {scoringConfig,withScoringConfig} from './cloudflare/scoring.js';
 export async function skillRequest(request, password, store, modelConnected=false){
  const reply=(data,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
  if(request.method!=='POST')return reply({code:'METHOD_NOT_ALLOWED'},405);
@@ -11,7 +12,8 @@ export async function skillRequest(request, password, store, modelConnected=fals
  if(diff)return reply({code:'UNAUTHORIZED'},401);
  if(body.action==='save'){
   if(typeof body.rules!=='string'||body.rules.length>30000)return reply({code:'INVALID_RULES'},400);
-  await store.put('rules',body.rules);
+  try{scoringConfig(body.rules);}catch{return reply({code:'INVALID_SCORING_CONFIG'},400);}
+  await store.put('rules',withScoringConfig(body.rules));
  }else if(body.action!=='read')return reply({code:'INVALID_ACTION'},400);
- return reply({rules:await store.get('rules')||'',modelConnected});
+ return reply({rules:withScoringConfig(await store.get('rules')||''),modelConnected});
 }

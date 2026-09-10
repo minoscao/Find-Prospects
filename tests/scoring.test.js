@@ -1,0 +1,9 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {calculateScore,scoringConfig,withScoringConfig} from '../cloudflare/scoring.js';
+const sources=[{id:'E1',url:'https://example.com'}];
+const row=(key,value)=>({key,value,evidenceIds:['E1'],reason:['依据','Evidence'],gap:['待确认','Unknown']});
+test('unknowns remain null and do not lower weighted score',()=>{const s=calculateScore({dimensions:[row('fit',4),row('role',3),row('potential',3),row('reach',3)]},sources);assert.equal(s.coverage,65);assert.equal(s.score,85);assert.equal(s.dimensions.find(d=>d.key==='demand').value,null);assert.equal(s.confidence,'medium');});
+test('insufficient coverage and invalid citations cannot create a score',()=>{const s=calculateScore({dimensions:[row('fit',4),{...row('demand',4),evidenceIds:['E99']}]},sources);assert.equal(s.score,null);assert.equal(s.coverage,25);assert.equal(s.priority,'pending');});
+test('zero is explicit negative evidence, not unknown',()=>{const s=calculateScore({dimensions:Object.keys(scoringConfig('').weights).map(k=>row(k,0))},sources);assert.equal(s.score,0);assert.equal(s.coverage,100);assert.equal(s.priority,'defer');});
+test('protected scoring configuration validates weights and is idempotent',()=>{const rules=withScoringConfig('private');assert.equal(withScoringConfig(rules),rules);assert.equal(scoringConfig(rules).weights.fit,25);assert.throws(()=>scoringConfig('<scoring-config>{"weights":{}}</scoring-config>'));});
+
+test('public operator and contact evidence cannot imply verified buying authority',()=>{const s=calculateScore({dimensions:[row('fit',4),row('role',4),row('potential',3),row('reach',4)]},sources);assert.equal(s.score,85);assert.equal(s.dimensions.find(d=>d.key==='role').value,3);assert.match(s.dimensions.find(d=>d.key==='reach').gap[1],/capped/);});
