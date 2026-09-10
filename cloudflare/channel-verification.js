@@ -33,19 +33,24 @@ export async function verifyChannels(input,read=readPublicPage){
  const extra=[...new Set(signals.flatMap(s=>Object.values(s.toolkit)))].filter(url=>!signals.some(s=>accountKey(s.url)===accountKey(url))).slice(0,3);
  await Promise.all(extra.map(async url=>{try{const page=await read(url);const s=pageSignals(page.html,page.url);if(s.restricted)throw Error('ACCESS_RESTRICTED');signals.push(s);result.pages.push({url:s.url,title:s.title,text:s.text,collectedAt:result.collectedAt});for(const l of extractPage(page.html,page.url).links)if(!result.links.some(x=>x.url===l.url))result.links.push(l);}catch(e){result.failures.push({url,code:e.message||'UNAVAILABLE'});}}));
  result.links=result.links.filter(l=>!['Instagram','Facebook','LinkedIn'].includes(l.platform)||!/^\/(?:share|sharer|sharer.php|intent|p|reel|reels)\b/i.test(new URL(l.url).pathname));
- const verifiedAt=new Date().toISOString(),checks=[];
+ const verifiedAt=new Date().toISOString(),checks=[],postJobs=[];
  for(const platform of platforms){const urls=platform==='Website'?[input.website]:[...new Map(result.links.filter(l=>l.platform===platform).map(l=>[accountKey(l.url)||l.url,l.url])).values()].slice(0,2);
  if(!urls.length){checks.push({platform,level:'unknown',ownership:'unconfirmed',access:'not_discovered',reason:['本轮官网未发现此渠道；不等于客户没有该渠道','Not found in this website scan; this does not prove absence'],updatedAt:verifiedAt,method:'automatic'});continue;}
  for(const url of urls){const officialLink=result.links.find(l=>l.platform===platform&&l.url===url);let pages=platform==='Website'?signals:[],access=pages.length?'read':'unread',failure;
  if(platform==='Website'&&!pages.length){failure=result.failures[0]?.code;access='restricted';}
  if(platform==='Email'||platform==='WhatsApp'){access='listed_not_tested';}
  else if(platform!=='Website'){try{const p=await read(url),s=pageSignals(p.html,p.url);if(s.restricted||accountKey(p.url)!==accountKey(url))throw Error('ACCESS_RESTRICTED');pages=[s];access='read';result.pages.push({url:s.url,title:s.title,text:s.text,collectedAt:verifiedAt});}catch(e){access='restricted';failure=e.message||'UNAVAILABLE';}}
- if(access==='read'&&['Instagram','Facebook'].includes(platform)){
+  const owned=platform==='Website'?signals.length>0:!!officialLink;const rating=rateSignals(pages,platform,owned);checks.push({platform,url,...rating,ownership:owned?'official_link':'unconfirmed',access,failure,updatedAt:verifiedAt,source:officialLink?.sourceUrl||url,sourceUrls:pages.map(p=>p.url),latestObservedPublication:pages.flatMap(p=>p.activities).map(a=>a.date).sort().at(-1)||null,contactability:'not_tested',method:'automatic',ruleVersion:'public-channel-evidence-v1'});
+ if(access==='read'&&['Instagram','Facebook'].includes(platform))postJobs.push({pages,url,platform,check:checks.at(-1)});
+ }
+ }
+ for(const job of postJobs){const {pages,url,platform,check}=job;
+ {
  const postURLs=[...new Set(pages.flatMap(s=>s.links).filter(l=>sameHost(l.url,url)&&/\/(?:p|reel|posts)\//.test(new URL(l.url).pathname)).map(l=>l.url))].slice(0,2);
  for(const postUrl of postURLs){try{const post=await read(postUrl),s=pageSignals(post.html,post.url,Date.now(),url);if(s.restricted)throw Error('LOGIN_REQUIRED');pages.push(s);result.pages.push({url:s.url,title:s.title,text:s.text,collectedAt:verifiedAt});}catch(e){result.failures.push({url:postUrl,code:e.message||'UNAVAILABLE'});}}
  }
- const owned=platform==='Website'?signals.length>0:!!officialLink;const rating=rateSignals(pages,platform,owned);checks.push({platform,url,...rating,ownership:owned?'official_link':'unconfirmed',access,failure,updatedAt:verifiedAt,source:officialLink?.sourceUrl||url,sourceUrls:pages.map(p=>p.url),latestObservedPublication:pages.flatMap(p=>p.activities).map(a=>a.date).sort().at(-1)||null,contactability:'not_tested',method:'automatic',ruleVersion:'public-channel-evidence-v1'});
- }
+
+ Object.assign(check,rateSignals(pages,platform,true),{sourceUrls:pages.map(p=>p.url),latestObservedPublication:pages.flatMap(p=>p.activities).map(a=>a.date).sort().at(-1)||null});
  }
  result.status=result.pages.length?(result.failures.length?'partial':'complete'):'failed';
  return {status:200,body:{customerId:input.id,verifiedAt,nextCheckAt:new Date(Date.now()+(result.status==='complete'&&!checks.some(c=>c.access==='restricted')?7*86400000:3600000)).toISOString(),checks,collection:result}};
