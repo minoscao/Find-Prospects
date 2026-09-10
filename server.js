@@ -15,11 +15,6 @@ if(existsSync(path.join(root,'.env')))for(const line of readFileSync(path.join(r
 const app=express();app.use(express.json({limit:'100kb'}));
 app.use('/api',(req,res,next)=>{const origin=req.get('origin');if(origin&&!/^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin))return res.status(403).json({code:'ORIGIN_REJECTED'});res.set('Cache-Control','no-store');next();});
 app.post('/api/skill',async(req,res)=>{try{const store={get:async()=>{const f=path.join(root,'.private','rules.txt');return existsSync(f)?readFileSync(f,'utf8'):'';},put:async(_,value)=>{mkdirSync(path.join(root,'.private'),{recursive:true});writeFileSync(path.join(root,'.private','rules.txt'),value);}};const r=await skillRequest(new Request('http://'+req.get('host')+req.originalUrl,{method:'POST',headers:{'Content-Type':'application/json',...(req.get('origin')?{origin:req.get('origin')}:{})},body:JSON.stringify(req.body)}),process.env.SKILL_ADMIN_PASSWORD,store);res.status(r.status).json(await r.json());}catch{res.status(500).json({code:'STORAGE_ERROR'});}});
-// Optional fixed deployment bridge for this local workspace.
-app.use(['/api/enrich','/api/status','/api/search'],async(req,res,next)=>{
- if(!process.env.CLOUD_API_ORIGIN)return next();
- try{const base=new URL(process.env.CLOUD_API_ORIGIN);if(base.protocol!=='https:')return next();const r=await fetch(new URL(req.originalUrl,base),{method:req.method,headers:{'Content-Type':'application/json'},...(req.method==='POST'?{body:JSON.stringify(req.body)}:{}),signal:AbortSignal.timeout(90000)});res.status(r.status).json(await r.json());}catch{res.status(502).json({code:'CLOUD_CONNECTION_FAILED'});}
-});
 app.get('/api/status',(_,res)=>res.json({google:!!process.env.GOOGLE_MAPS_API_KEY,website:true,social:false,ai:false,sending:false}));
 app.post('/api/search',async(req,res)=>{const r=await searchPlaces(req.body,process.env.GOOGLE_MAPS_API_KEY);res.status(r.status).json(r.body);});
 
