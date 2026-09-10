@@ -45,6 +45,7 @@ function App({workspace,onWorkspaceChange}){
  useEffect(()=>{if(toast){const timer=setTimeout(()=>setToast(''),4500);return()=>clearTimeout(timer);}},[toast]);
  const update=(id,patch)=>setCustomers(cs=>cs.map(x=>x.id===id?{...x,...patch}:x));
  const navigate=p=>{if(location.hash.includes('assessment'))history.replaceState(null,'',location.pathname+location.search);if(['dashboard','customers'].includes(p))setActiveProject(null);setPage(p);setSearch('');setSelected(null);};
+ useEffect(()=>{if(page==='map'&&api.google===false)window.dispatchEvent(new Event('open-api-setup'));},[page,api.google]);
  const open=(id,tabName='analysis')=>{setSelected(id);setTab(tabName);setNote('');setDraft('');setGraphNode('web');};
  const stageLabel=s=>({initial:t('候选','Candidates'),qualified:t('初选','Qualified'),shortlist:t('重点','Priority'),finalist:t('跟进','Follow-up'),excluded:t('已剔除','Excluded')}[s]);
  const nav=[['dashboard','House',t('总览','Overview')],['map','MapPin',t('地图获客','Map discovery')],['customers','ContactRound',t('客户管理','Customer management')],['network','Network',t('客户关系网络','Identity network')],['inbox','Mail',t('收件箱与草稿','Inbox & drafts')],['tasks','CalendarCheck',t('跟进任务','Follow-ups')],['handoff','ArrowRightLeft',t('工厂交接','Factory handoff')]];
