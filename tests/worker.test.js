@@ -4,12 +4,12 @@ import worker from '../cloudflare/worker.js';
 
 test('Cloudflare reports unavailable backend services honestly', async () => {
   const response = await worker.fetch(new Request('https://example.com/api/status'), {});
-  assert.deepEqual(await response.json(), {google:false, website:false, social:false, ai:false, sending:false});
+  assert.deepEqual(await response.json(), {google:false, website:true, social:false, ai:false, sending:false});
 });
 
 test('API requests return JSON instead of the SPA page', async () => {
-  for (const [path, status] of [['/api/search',503], ['/api/enrich',503], ['/api/unknown',404], ['/api',404]]) {
-    const response = await worker.fetch(new Request(`https://example.com${path}`, {method:'POST'}), {});
+  for (const [path, status] of [['/api/search',503], ['/api/enrich',400], ['/api/unknown',404], ['/api',404]]) {
+    const response = await worker.fetch(new Request(`https://example.com${path}`, {method:'POST',body:'{}'}), {});
     assert.equal(response.status, status);
     assert.match(response.headers.get('content-type'), /application\/json/);
     assert.ok((await response.json()).code);

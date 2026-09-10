@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {enrichWebsite,publicURL} from '../cloudflare/collection-api.js';
+import worker from '../cloudflare/worker.js';
+test('cloud collection rejects local targets and credentials',()=>{for(const u of ['http://example.com','https://127.0.0.1','https://[::1]','https://user:pass@example.com','https://host.internal'])assert.throws(()=>publicURL(u));});
+test('blocked websites produce no AI analysis',async t=>{t.mock.method(globalThis,'fetch',async()=>new Response('blocked',{status:403}));let calls=0;const r=await enrichWebsite({website:'https://example.com',analyze:true},{AI:{run:async()=>{calls++;}}});assert.equal(r.body.status,'failed');assert.equal(r.body.failures[0].code,'ACCESS_RESTRICTED');assert.equal(calls,0);});
+test('AI uses only collected evidence and preserves provenance',async t=>{t.mock.method(globalThis,'fetch',async()=>new Response('<title>Business</title><p>Birthday parties</p>',{headers:{'Content-Type':'text/html'}}));const r=await enrichWebsite({website:'https://example.com',analyze:true},{AI:{run:async(model,input)=>{assert.match(input.messages[1].content,/Birthday parties/);return {response:'Unconfirmed opportunity'};}}});assert.equal(r.body.analysis.text,'Unconfirmed opportunity');assert.deepEqual(r.body.analysis.sourceUrls,['https://example.com/']);});
+test('cloud collection rate limit prevents outbound work',async()=>{const r=await worker.fetch(new Request('https://app.example.com/api/enrich',{method:'POST',body:'{}'}),{COLLECTION_LIMITER:{limit:async()=>({success:false})}});assert.equal(r.status,429);});
