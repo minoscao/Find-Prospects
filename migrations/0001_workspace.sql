@@ -1,0 +1,16 @@
+PRAGMA foreign_keys = ON;
+CREATE TABLE workspace_revision (id INTEGER PRIMARY KEY CHECK(id=1), revision INTEGER NOT NULL);
+INSERT INTO workspace_revision VALUES(1,0);
+CREATE TABLE write_guard (ok INTEGER CHECK(ok=1));
+CREATE TABLE products (id TEXT PRIMARY KEY, name TEXT NOT NULL);
+CREATE TABLE customers (id TEXT PRIMARY KEY, name TEXT NOT NULL, website TEXT, data TEXT NOT NULL CHECK(json_valid(data)));
+CREATE INDEX customers_website ON customers(website);
+CREATE TABLE projects (id TEXT PRIMARY KEY, product_id TEXT REFERENCES products(id), data TEXT NOT NULL CHECK(json_valid(data)));
+CREATE TABLE project_customers (project_id TEXT REFERENCES projects(id) ON DELETE CASCADE, customer_id TEXT REFERENCES customers(id) ON DELETE CASCADE, PRIMARY KEY(project_id,customer_id));
+CREATE TABLE evidence (customer_id TEXT REFERENCES customers(id) ON DELETE CASCADE, position INTEGER, url TEXT, data TEXT NOT NULL, PRIMARY KEY(customer_id,position));
+CREATE TABLE channels (customer_id TEXT REFERENCES customers(id) ON DELETE CASCADE, position INTEGER, data TEXT NOT NULL, PRIMARY KEY(customer_id,position));
+CREATE TABLE contacts (customer_id TEXT REFERENCES customers(id) ON DELETE CASCADE, position INTEGER, data TEXT NOT NULL, PRIMARY KEY(customer_id,position));
+CREATE TABLE assessments (customer_id TEXT REFERENCES customers(id) ON DELETE CASCADE, position INTEGER, rule_version TEXT, generated_at TEXT, data TEXT NOT NULL, PRIMARY KEY(customer_id,position));
+CREATE TABLE followups (customer_id TEXT REFERENCES customers(id) ON DELETE CASCADE, position INTEGER, data TEXT NOT NULL, PRIMARY KEY(customer_id,position));
+CREATE TABLE material_briefs (customer_id TEXT PRIMARY KEY REFERENCES customers(id) ON DELETE CASCADE, data TEXT NOT NULL);
+CREATE TABLE drafts (id TEXT PRIMARY KEY, customer_id TEXT REFERENCES customers(id), data TEXT NOT NULL);

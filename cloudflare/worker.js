@@ -1,3 +1,4 @@
+import {databaseRequest,authenticated} from './database-api.js';
 import {assessCustomer} from './assessment-api.js';
 import {enrichWebsite} from './collection-api.js';
 import {searchPlaces} from '../search-api.js';
@@ -5,6 +6,8 @@ import {skillRequest} from '../skill-api.js';
 export default {
   async fetch(request, env) {
     const pathname = new URL(request.url).pathname;
+    if(pathname === '/api/workspace'||pathname === '/api/session')return databaseRequest(request,env);
+    if(env.DB&&['/api/search','/api/enrich','/api/assess'].includes(pathname)&&!await authenticated(request,env))return Response.json({code:'UNAUTHORIZED'},{status:401});
     if(pathname === '/api/skill')return skillRequest(request,env.SKILL_ADMIN_PASSWORD,env.SKILL_STORE,!!env.AI);
     if (pathname === '/api/status') {
       return Response.json({google:!!env.GOOGLE_MAPS_API_KEY, website:true, social:false, ai:!!env.AI, sending:false});

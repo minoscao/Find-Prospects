@@ -1,0 +1,4 @@
+.cloud-shell .sidebar{top:var(--cloud-offset)}
+.cloud-shell .topbar{top:var(--cloud-offset)}
+.cloud-shell .detail{top:calc(var(--cloud-offset) + 76px)}
+@media(max-width:600px){.cloud-shell .detail{top:calc(var(--cloud-offset) + 64px)}}
