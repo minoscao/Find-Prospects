@@ -1,41 +1,47 @@
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "find-prospects",
-	"main": "cloudflare/worker.js",
-	"compatibility_date": "2026-09-09",
-	"assets": {
-		"directory": "./dist",
-		"binding": "ASSETS",
-		"not_found_handling": "single-page-application",
-		"run_worker_first": [
-			"/api",
-			"/api/*"
-		]
-	},
-	"ai": {
-		"binding": "AI"
-	},
-	"ratelimits": [
-		{
-			"name": "COLLECTION_LIMITER",
-			"namespace_id": "1001",
-			"simple": {
-				"limit": 5,
-				"period": 60
-			}
-		}
-	],
-	"kv_namespaces": [
-		{
-			"binding": "SKILL_STORE",
-			"id": "348646ee8b5d4fe5908933a928cafcbd"
-		}
-	],
-	"d1_databases": [
-		{
-			"binding": "DB",
-			"database_name": "find-prospects-db",
-			"database_id": "bc1a47fc-eafd-4d61-8bc6-0b6f0aac09e5"
-		}
-	]
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "find-prospects",
+  "main": "cloudflare/worker.js",
+  "compatibility_date": "2026-09-09",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": [
+      "/api",
+      "/api/*"
+    ]
+  },
+  "ai": {
+    "binding": "AI"
+  },
+  "ratelimits": [
+    {
+      "name": "COLLECTION_LIMITER",
+      "namespace_id": "1001",
+      "simple": {
+        "limit": 5,
+        "period": 60
+      }
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "SKILL_STORE",
+      "id": "348646ee8b5d4fe5908933a928cafcbd"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "find-prospects-db",
+      "database_id": "bc1a47fc-eafd-4d61-8bc6-0b6f0aac09e5"
+    }
+  ],
+  "browser": {
+    "binding": "BROWSER"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
 }

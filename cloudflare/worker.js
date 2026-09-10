@@ -1,3 +1,4 @@
+import {createBrowserReader} from './browser-reader.js';
 import {verifyChannels} from './channel-verification.js';
 import {databaseRequest,authenticated} from './database-api.js';
 import {assessCustomer} from './assessment-api.js';
@@ -23,7 +24,7 @@ export default {
       if(request.method!=='POST')return Response.json({code:'METHOD_NOT_ALLOWED'},{status:405});
       if(request.headers.get('origin')&&request.headers.get('origin')!==new URL(request.url).origin)return Response.json({code:'ORIGIN_REJECTED'},{status:403});
       if(env.COLLECTION_LIMITER){const limit=await env.COLLECTION_LIMITER.limit({key:request.headers.get('CF-Connecting-IP')||'unknown'});if(!limit.success)return Response.json({code:'RATE_LIMITED'},{status:429});}
-      try{const text=await request.text();if(text.length>50000)return Response.json({code:'INPUT_TOO_LARGE'},{status:413});const result=await (pathname==='/api/verify-channels'?value=>verifyChannels(value):pathname==='/api/assess'?assessCustomer:enrichWebsite)(JSON.parse(text),env);return Response.json(result.body,{status:result.status,headers:{'Cache-Control':'no-store'}});}catch{return Response.json({code:'COLLECTION_FAILED'},{status:502});}
+      try{const text=await request.text();if(text.length>50000)return Response.json({code:'INPUT_TOO_LARGE'},{status:413});const result=await (pathname==='/api/verify-channels'?async value=>{const reader=createBrowserReader(env);try{const result=await verifyChannels(value,reader.read);if(result.status===200)result.body.readAttempts=reader.attempts;return result;}finally{await reader.close();}}:pathname==='/api/assess'?assessCustomer:enrichWebsite)(JSON.parse(text),env);return Response.json(result.body,{status:result.status,headers:{'Cache-Control':'no-store'}});}catch{return Response.json({code:'COLLECTION_FAILED'},{status:502});}
     }
     if (pathname === '/api' || pathname.startsWith('/api/')) {
       return Response.json({code:'NOT_FOUND'}, {status:404});

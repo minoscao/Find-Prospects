@@ -16,3 +16,5 @@ test('refresh deduplicates collected evidence and preserves manual sources and r
  assert.equal(twice.sources.length,2);assert.equal(twice.network.length,1);assert.deepEqual(twice.channelRatings,c.channelRatings);
  const failed=mergeCollection(twice,{pages:[],links:[],status:'failed'});assert.equal(failed.sources.length,2);assert.ok(!('lastCollected' in failed));
 });
+
+test('placeholder mail links are not published contact addresses',()=>{const p=extractPage('<a href="mailto:#">template</a><a href="mailto:book@example.com">contact</a>','https://example.com');assert.equal(p.links.length,1);assert.equal(p.links[0].url,'mailto:book@example.com');});

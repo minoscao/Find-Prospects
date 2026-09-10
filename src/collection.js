@@ -6,7 +6,7 @@ export function extractPage(html,url){
  const links=[],pages=[];
  for(const m of html.matchAll(/href\s*=\s*["']([^"']+)["']/gi)){
   try{const u=new URL(m[1].replaceAll('&amp;','&'),url);let platform;
-   if(u.protocol==='mailto:')platform='Email';
+   if(u.protocol==='mailto:'&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(decodeURIComponent(u.pathname)))platform='Email';
    else if(u.protocol==='tel:')platform='Phone';
    else if(u.protocol==='https:'){
     platform=[['facebook.com','Facebook'],['instagram.com','Instagram'],['linkedin.com','LinkedIn'],['youtube.com','YouTube'],['tiktok.com','TikTok'],['wa.me','WhatsApp'],['api.whatsapp.com','WhatsApp']].find(([h])=>u.hostname===h||u.hostname.endsWith('.'+h))?.[1];
