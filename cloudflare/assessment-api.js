@@ -16,6 +16,6 @@ export async function assessCustomer(input,env){
  if(typeof reviewed.response!=='string'||!reviewed.response.trim())throw Error('EMPTY_REVIEW');
  response.response=reviewed.response;
  const scoring=await generateScore(env,rules,sources,input.name);
- return {status:200,body:{customerId:input.id,scoring,text:response.response,generatedAt:new Date().toISOString(),ruleVersion:await digest(rules),evidenceVersion:await digest(evidence),sources,model:'@cf/meta/llama-3.3-70b-instruct-fp8-fast',scope:'customer-value-and-profile'}};
+ return {status:200,body:{customerId:input.id,scoring,text:response.response,generatedAt:new Date().toISOString(),ruleVersion:await digest(rules),evidenceVersion:await digest(evidence),sources,model:env.AI_MODEL||'@cf/meta/llama-3.3-70b-instruct-fp8-fast',scope:'customer-value-and-profile'}};
  }catch{return {status:502,body:{code:'ASSESSMENT_FAILED'}};}
 }

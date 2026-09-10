@@ -1,3 +1,4 @@
+import {integrationRequest,configuredEnv} from './integrations.js';
 import {createBrowserReader} from './browser-reader.js';
 import {verifyChannels} from './channel-verification.js';
 import {databaseRequest,authenticated} from './database-api.js';
@@ -10,6 +11,8 @@ export default {
     const pathname = new URL(request.url).pathname;
     if(pathname === '/api/workspace'||pathname === '/api/session')return databaseRequest(request,env);
     if(env.DB&&['/api/search','/api/enrich','/api/assess','/api/verify-channels'].includes(pathname)&&!await authenticated(request,env))return Response.json({code:'UNAUTHORIZED'},{status:401});
+    if(pathname === '/api/integrations')return integrationRequest(request,env);
+    if(['/api/status','/api/search','/api/assess','/api/enrich'].includes(pathname)){try{env=await configuredEnv(env);}catch{return Response.json({code:'CONFIG_REQUEST_FAILED'},{status:503});}}
     if(pathname === '/api/skill')return skillRequest(request,env.SKILL_ADMIN_PASSWORD,env.SKILL_STORE,!!env.AI);
     if (pathname === '/api/status') {
       return Response.json({google:!!env.GOOGLE_MAPS_API_KEY, website:true, social:false, ai:!!env.AI, sending:false});
