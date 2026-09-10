@@ -1,3 +1,4 @@
+import {mergeDubaiCustomers,mergeDubaiProject} from './dubai-prospects.js';
 import {mergeCollection} from './collection.js';
 import SourceLink from './SourceLink.jsx';
 import React,{useState,useEffect,useRef} from 'react';
@@ -20,9 +21,9 @@ function Icon({name='Circle',size=19,...props}){const C=icons[name]||Circle;retu
 function App(){
  const [lang,setLang]=useState(()=>localStorage.getItem('tg-lang')||'zh');const en=lang==='en',t=(a,b)=>en?b:a,bi=v=>Array.isArray(v)?v[en?1:0]:v;
  const [page,setPage]=useState(()=>location.hash.startsWith('#customer-assessment=')?'customer-assessment':location.hash==='#orange-assessment'?'assessment':'dashboard'),[mode,setMode]=useState(()=>localStorage.getItem('tg-mode')||'api');
- const [customers,setCustomers]=useState(()=>{try{const d=JSON.parse(localStorage.getItem('tg-customers'));return mergeResearchedCustomers(Array.isArray(d)?d:seed());}catch{return mergeResearchedCustomers(seed());}});
+ const [customers,setCustomers]=useState(()=>{try{const d=JSON.parse(localStorage.getItem('tg-customers'));return mergeDubaiCustomers(mergeResearchedCustomers(Array.isArray(d)?d:seed()));}catch{return mergeDubaiCustomers(mergeResearchedCustomers(seed()));}});
  const [selected,setSelected]=useState(null),[tab,setTab]=useState('analysis'),[stage,setStage]=useState('all'),[search,setSearch]=useState(''),[platform,setPlatform]=useState('all'),[grid,setGrid]=useState(true),[toast,setToast]=useState(''),[busy,setBusy]=useState(false),[api,setApi]=useState({}),[note,setNote]=useState(''),[draft,setDraft]=useState(''),[draftLang,setDraftLang]=useState('en'),[graphNode,setGraphNode]=useState('web'),[region,setRegion]=useState('London'),[polygon,setPolygon]=useState([[51.48,-.2],[51.56,-.2],[51.56,-.07],[51.48,-.07]]),[drawing,setDrawing]=useState(false),[checked,setChecked]=useState([]),[results,setResults]=useState([]),[rejection,setRejection]=useState('');
- const [projects,setProjects]=useState(()=>{try{const stored=JSON.parse(localStorage.getItem('tg-projects'));return mergeResearchProject(Array.isArray(stored)?stored:initialProjects(customers.filter(c=>c.origin!=='public-research')),customers);}catch{return mergeResearchProject(initialProjects(customers.filter(c=>c.origin!=='public-research')),customers);}});
+ const [projects,setProjects]=useState(()=>{try{const stored=JSON.parse(localStorage.getItem('tg-projects'));return mergeDubaiProject(mergeResearchProject(Array.isArray(stored)?stored:initialProjects(customers.filter(c=>c.origin!=='public-research')),customers),customers);}catch{return mergeDubaiProject(mergeResearchProject(initialProjects(customers.filter(c=>c.origin!=='public-research')),customers),customers);}});
  useEffect(()=>{localStorage.setItem('tg-mode',mode);},[mode]);
  const [activeProject,setActiveProject]=useState(null);
  useEffect(()=>{localStorage.setItem('tg-projects',JSON.stringify(projects));},[projects]);

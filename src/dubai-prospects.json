@@ -1,0 +1,302 @@
+[
+  {
+    "id": "dubai-totally-teepee",
+    "name": "Totally Teepee",
+    "role": "帐篷派对运营商；官网声明服务迪拜，未核实总部地址",
+    "priority": "优先联系",
+    "confidence": "中：官网业务明确，采购安排未知",
+    "fact": "官网展示多种配色的标准帐篷、主题布置与睡衣派对服务；业务直接使用儿童帐篷。",
+    "sources": [
+      {
+        "evidence_id": "D1-E1",
+        "title": "标准帐篷",
+        "url": "https://totallyteepee.ae/standard/",
+        "status": "collected",
+        "reviewed_at": "2026-09-10",
+        "published_at": null,
+        "event_at": null
+      },
+      {
+        "evidence_id": "D1-E2",
+        "title": "服务地区",
+        "url": "https://totallyteepee.ae/",
+        "status": "collected",
+        "reviewed_at": "2026-09-10",
+        "published_at": null,
+        "event_at": null
+      },
+      {
+        "evidence_id": "D1-E3",
+        "title": "公开邮箱",
+        "url": "https://totallyteepee.ae/refund_returns/",
+        "status": "collected",
+        "reviewed_at": "2026-09-10",
+        "published_at": null,
+        "event_at": null
+      }
+    ],
+    "contact": "book@totallyteepee.ae（官网订购/售后入口，不是已确认采购邮箱）",
+    "fit": "优先探讨主题布套、补充库存及替换部件；这些都是待确认用途。",
+    "risk": "已有帐篷及供应方案，未发现换供应商、扩充库存或近期采购公告。不能照搬其第三方主题设计。",
+    "question": "帐篷由你们自行采购还是合作方提供？是否接受新供应方介绍主题布套或替换部件？",
+    "draft": "We saw your themed teepee sleepover services. Does your team source the tents and covers directly, and would a brief introduction to a potential supplier be relevant?",
+    "brief": "制作面向租赁使用的原创配色示意，突出布套、收纳与部件概念；清洗与耐用性能须经工厂确认。",
+    "dims": [
+      "支持：直接使用帐篷",
+      "间接业务线索，非采购需求",
+      "运营方明确；自购未知",
+      "复用潜力为推测",
+      "无确认采购窗口",
+      "公开邮箱，未测试",
+      "未知"
+    ],
+    "draftZh": "看到贵公司的主题帐篷睡衣派对服务，想了解帐篷和布套是否由贵团队直接采购，以及是否适合介绍一家潜在供应商。",
+    "customer_id": "dubai-totally-teepee",
+    "reviewedAt": "2026-09-10",
+    "contactStatus": "uncontacted",
+    "published_at": null,
+    "event_at": null,
+    "channelRatings": "待核验：本轮未完成社交更新频率或完整品牌工具审查"
+  },
+  {
+    "id": "dubai-caramel-sun",
+    "name": "Caramel & Sun",
+    "role": "儿童家居零售与设计服务；官网列 Al Quoz 3, Street 4, Dubai",
+    "priority": "优先联系",
+    "confidence": "中：官网相关服务明确，品类采购未核实",
+    "fact": "官网服务页包括儿童房布置指导和产品个性化服务。",
+    "sources": [
+      {
+        "evidence_id": "D2-E1",
+        "title": "服务及联系",
+        "url": "https://www.caramelandsun.com/pages/our-services",
+        "status": "collected",
+        "reviewed_at": "2026-09-10",
+        "published_at": null,
+        "event_at": null
+      }
+    ],
+    "contact": "hello@caramelandsun.com（业务咨询入口）",
+    "fit": "可探讨儿童房帐篷选品或设计项目配套；是否接受工厂供货、自有品牌合作尚未知。",
+    "risk": "现有精选品牌路线可能不接受无品牌产品；旧资料的 Mercato 门店地址不用于本轮联系，应以官网现列地址为线索再确认。",
+    "question": "儿童房产品选品由谁负责？是否考虑工厂直供或项目定制，还是仅代理已有品牌？",
+    "draft": "We noticed your children's room styling and personalization services. Who handles new product selection, and do you consider manufacturer-supplied indoor play tents?",
+    "brief": "原创儿童房场景与配色、尺寸选择占位；先确认价格带和品牌合作方式，不直接制作带客户 logo 的商品。",
+    "dims": [
+      "支持：儿童房用品及布置",
+      "间接用途证据",
+      "零售/设计；进口资格未知",
+      "销售/项目配套潜力为推测",
+      "无确认上新采购窗口",
+      "公开邮箱，未测试",
+      "未知"
+    ],
+    "draftZh": "注意到贵公司的儿童房布置及个性化服务，请问谁负责新品选品，是否考虑制造商提供的室内儿童游戏帐篷？",
+    "customer_id": "dubai-caramel-sun",
+    "reviewedAt": "2026-09-10",
+    "contactStatus": "uncontacted",
+    "published_at": null,
+    "event_at": null,
+    "channelRatings": "待核验：本轮未完成社交更新频率或完整品牌工具审查"
+  },
+  {
+    "id": "dubai-hafla",
+    "name": "Hafla",
+    "role": "活动服务平台与供应商网络；官网列 ONE JLT, Dubai 办公地址",
+    "priority": "补充核验：渠道合作",
+    "confidence": "中：平台及商品明确，直接采购角色未知",
+    "fact": "平台展示按顶配置的 Sleepover Tent 租赁商品；关于页面提供商业合作方入口。",
+    "sources": [
+      {
+        "evidence_id": "D3-E1",
+        "title": "小帐篷租赁",
+        "url": "https://www.hafla.com/products/sleepover-tent",
+        "status": "collected",
+        "reviewed_at": "2026-09-10",
+        "published_at": null,
+        "event_at": null
+      },
+      {
+        "evidence_id": "D3-E2",
+        "title": "平台与合作入口",
+        "url": "https://book.hafla.com/pages/about-us",
+        "status": "collected",
+        "reviewed_at": "2026-09-10",
+        "published_at": null,
+        "event_at": null
+      },
+      {
+        "evidence_id": "D3-E3",
+        "title": "易混淆商品",
+        "url": "https://www.hafla.com/products/teepee-sleepover-birthday-party-rental",
+        "status": "collected",
+        "reviewed_at": "2026-09-10",
+        "published_at": null,
+        "event_at": null
+      }
+    ],
+    "contact": "从官网 About Us 的 Business Partners 入口询问；未核实专用采购邮箱",
+    "fit": "潜在价值在接触合适的本地租赁供应方，不应默认 Hafla 自购所有帐篷。",
+    "risk": "部分题名 Teepee 的另一商品包含 6m Bell Tent，不能用其配置判断儿童小帐篷需求；网站租赁售价不是工厂采购预算。",
+    "question": "你们直接采购帐篷，还是由合作租赁方持有库存？是否接受制造商类型的合作？",
+    "draft": "We saw the sleepover tent offering on Hafla. Is inventory sourced by Hafla or by rental partners, and is there an appropriate route for a children's tent manufacturer to discuss supply?",
+    "brief": "先做供应合作能力简报，不做租赁服务承诺；本地仓储、配送和安装能力都待核实。",
+    "dims": [
+      "支持：已有小帐篷商品",
+      "平台业务线索，非采购公告",
+      "平台明确；实际买家未知",
+      "间接渠道潜力",
+      "无确认采购窗口",
+      "商业合作入口",
+      "未知：本地履约也未确认"
+    ],
+    "draftZh": "看到 Hafla 的睡衣派对帐篷产品，想了解库存由平台还是租赁合作方采购，以及儿童帐篷制造商适合通过哪个入口讨论供货。",
+    "customer_id": "dubai-hafla",
+    "reviewedAt": "2026-09-10",
+    "contactStatus": "uncontacted",
+    "published_at": null,
+    "event_at": null,
+    "channelRatings": "待核验：本轮未完成社交更新频率或完整品牌工具审查"
+  },
+  {
+    "id": "dubai-divas",
+    "name": "Divas on Wheels",
+    "role": "官网宣传迪拜儿童派对及睡衣派对服务",
+    "priority": "补充核验：服务地点与采购方式",
+    "confidence": "中偏低：业务直接相关，但页面地点文字冲突",
+    "fact": "官网介绍主题 Teepee 布置、配送、搭建和次日回收。另一睡衣派对页面出现 Cardup 地名，与其迪拜宣传需要核对。",
+    "sources": [
+      {
+        "evidence_id": "D4-E1",
+        "title": "Glamping 服务及电话",
+        "url": "https://www.divasonwheels.me/glamping",
+        "status": "collected",
+        "reviewed_at": "2026-09-10",
+        "published_at": null,
+        "event_at": null
+      },
+      {
+        "evidence_id": "D4-E2",
+        "title": "需核对的页面",
+        "url": "https://www.divasonwheels.me/sleepoverteepees",
+        "status": "collected",
+        "reviewed_at": "2026-09-10",
+        "published_at": null,
+        "event_at": null
+      }
+    ],
+    "contact": "055 598 2180（官网列示本地号码；未确认 WhatsApp 或送达）",
+    "fit": "主题更新、替换布套和道具补充有可能适配，但不是已确认需求。",
+    "risk": "地点文字冲突；现有材料和产品说明不能当成我们工厂已达到的能力。",
+    "question": "当前帐篷派对是否仍在迪拜提供？官网 Cardup 配送文字是否适用？谁负责道具采购？",
+    "draft": "We came across your Dubai teepee party service. Could you confirm the current service area and who handles sourcing the tents and themed covers?",
+    "brief": "核实主体后再出原创派对方向；不先投入整套定制 PPT。",
+    "dims": [
+      "支持：直接使用帐篷",
+      "间接业务线索",
+      "运营方候选；需核实",
+      "复用潜力",
+      "无确认采购窗口",
+      "公开电话，未测试",
+      "未知"
+    ],
+    "draftZh": "看到贵公司的迪拜帐篷派对服务，方便确认目前服务区域，以及帐篷和主题布套由谁负责采购吗？",
+    "customer_id": "dubai-divas",
+    "reviewedAt": "2026-09-10",
+    "contactStatus": "uncontacted",
+    "published_at": null,
+    "event_at": null,
+    "channelRatings": "待核验：本轮未完成社交更新频率或完整品牌工具审查"
+  },
+  {
+    "id": "dubai-purespace",
+    "name": "PureSpace",
+    "role": "儿童房设计及室内配套；官网提供迪拜服务页面",
+    "priority": "补充核验：是否采购软装",
+    "confidence": "中：官网服务明确，供货角色未明",
+    "fact": "儿童房设计页面讨论学习、玩耍和收纳分区，并列公开咨询联系方式。",
+    "sources": [
+      {
+        "evidence_id": "D5-E1",
+        "title": "儿童房服务及联系",
+        "url": "https://www.purespace.ae/design-ideas/kids-bedroom-designs",
+        "status": "collected",
+        "reviewed_at": "2026-09-10",
+        "published_at": null,
+        "event_at": null
+      }
+    ],
+    "contact": "care@purespace.ae；+971 56 417 7264（通用咨询）",
+    "fit": "可能把帐篷作为活动家具或阅读角软装，属于设计选品或推荐角色。",
+    "risk": "未找到帐篷采购或销售证据；其业务可能集中于固定装修，单项目数量也未知。",
+    "question": "是否负责项目中的活动家具和儿童软装采购，还是由业主自行购买？",
+    "draft": "We noticed your children's bedroom design service. Does your team source movable playroom accessories, such as indoor play tents, or are these purchased directly by homeowners?",
+    "brief": "准备单个阅读角/游戏角示意与占地尺寸，尺寸待工厂确认；不把整屋装修需求说成帐篷需求。",
+    "dims": [
+      "弱支持：空间用途相关",
+      "行业用途假设",
+      "设计角色明确；代采未知",
+      "项目配套潜力",
+      "无确认采购窗口",
+      "邮箱及电话，未测试",
+      "未知"
+    ],
+    "draftZh": "注意到贵公司的儿童房设计服务，请问室内游戏帐篷等活动软装由贵团队采购，还是业主自行购买？",
+    "customer_id": "dubai-purespace",
+    "reviewedAt": "2026-09-10",
+    "contactStatus": "uncontacted",
+    "published_at": null,
+    "event_at": null,
+    "channelRatings": "待核验：本轮未完成社交更新频率或完整品牌工具审查"
+  },
+  {
+    "id": "dubai-ritz-jbr",
+    "name": "The Ritz-Carlton, Dubai（JBR）",
+    "role": "酒店终端使用方；Al Mamsha Street, Jumeirah Beach Residences, Dubai",
+    "priority": "补充核验：儿童活动团队与采购流程",
+    "confidence": "中：酒店和儿童活动明确，帐篷用途未确认",
+    "fact": "该酒店官网介绍 Ritz Kids、主题游戏和儿童活动；本轮没有找到该迪拜酒店目前使用室内帐篷的直接证据。",
+    "sources": [
+      {
+        "evidence_id": "D6-E1",
+        "title": "该酒店儿童活动",
+        "url": "https://www.ritzcarlton.com/en/hotels/dxbrz-the-ritz-carlton-dubai/experiences/",
+        "status": "collected",
+        "reviewed_at": "2026-09-10",
+        "published_at": null,
+        "event_at": null
+      },
+      {
+        "evidence_id": "D6-E2",
+        "title": "酒店主体与总机",
+        "url": "https://www.ritzcarlton.com/en/hotels/dxbrz-the-ritz-carlton-dubai/overview/",
+        "status": "collected",
+        "reviewed_at": "2026-09-10",
+        "published_at": null,
+        "event_at": null
+      }
+    ],
+    "contact": "+971 4 399 4000（酒店总机，非采购直线）",
+    "fit": "可探索儿童活动中的可移动主题角；需先由活动负责人确认用途，再进入采购沟通。",
+    "risk": "不能把其他城市丽思酒店的帐篷项目归给该店；酒店供应商准入、材料要求、预算和采购主体均未知。",
+    "question": "儿童活动团队是否使用或计划使用可移动的室内主题帐篷？适合联系哪位活动或采购同事？",
+    "draft": "We read about the Ritz Kids activities at your JBR hotel. Could you direct us to the team that reviews movable indoor play equipment and themed children's activity setups?",
+    "brief": "先做一页用途探索图，不制作客房帐篷现状对比；任何品牌标识使用需确认。",
+    "dims": [
+      "弱支持：儿童活动相关",
+      "需求假设",
+      "酒店使用方；审批链未知",
+      "复用潜力未知",
+      "无确认采购窗口",
+      "总机，未测试",
+      "未知"
+    ],
+    "draftZh": "了解到贵酒店 JBR 店的 Ritz Kids 活动，方便转接负责审核室内活动设备及儿童主题布置的团队吗？",
+    "customer_id": "dubai-ritz-jbr",
+    "reviewedAt": "2026-09-10",
+    "contactStatus": "uncontacted",
+    "published_at": null,
+    "event_at": null,
+    "channelRatings": "待核验：本轮未完成社交更新频率或完整品牌工具审查"
+  }
+]
